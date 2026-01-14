@@ -36,4 +36,4 @@ crudini --set "${config_path}/config.ini" Slskd delete_searches "${SLSKD_DELETE_
 crudini --set "${config_path}/config.ini" Slskd stalled_timeout "${SLSKD_STALLED_TIMEOUT}"
 
 # run app (foreground)
-python3 "${install_path}/soularr.py" --config-dir "${config_path}/config.ini" --no-lock-file
+python3 "${install_path}/soularr.py" --config-dir "${config_path}" --no-lock-file
