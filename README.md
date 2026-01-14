@@ -28,6 +28,7 @@ docker run -d \
     -e SLSKD_DOWNLOAD_DIR=<slskd download directory> \
     -e SLSKD_DELETE_SEARCHES=<delete searches true/false> \
     -e SLSKD_STALLED_TIMEOUT=<stalled timeout in seconds> \
+    -e SCRIPT_INTERVAL=<script interval in seconds> \
     -e HEALTHCHECK_COMMAND=<command> \
     -e HEALTHCHECK_ACTION=<action> \
     -e HEALTHCHECK_HOSTNAME=<hostname> \
@@ -62,6 +63,7 @@ docker run -d \
     -e SLSKD_DOWNLOAD_DIR=/data/slskd_downloads \
     -e SLSKD_DELETE_SEARCHES=False \
     -e SLSKD_STALLED_TIMEOUT=3600 \
+    -e SCRIPT_INTERVAL=300 \
     -e UMASK=000 \
     -e PUID=0 \
     -e PGID=0 \

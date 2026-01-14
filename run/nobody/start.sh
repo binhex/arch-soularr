@@ -38,5 +38,35 @@ crudini --set "${config_path}/config.ini" Slskd download_dir "${SLSKD_DOWNLOAD_D
 crudini --set "${config_path}/config.ini" Slskd delete_searches "${SLSKD_DELETE_SEARCHES}"
 crudini --set "${config_path}/config.ini" Slskd stalled_timeout "${SLSKD_STALLED_TIMEOUT}"
 
-# run app (foreground)
-python3 "${install_path}/soularr.py" --config-dir "${config_path}" --no-lock-file
+# setup signal handlers for graceful shutdown
+shutdown='false'
+trap "shutdown='true'" SIGTERM SIGINT
+
+# run app in loop with restart capability
+while [[ "${shutdown}" == 'false' ]]; do
+	python3 "${install_path}/soularr.py" --config-dir "${config_path}" --no-lock-file &
+	pid=$!
+
+	# wait for the process or shutdown signal
+	while kill -0 $pid 2>/dev/null && [[ "${shutdown}" == 'false' ]]; do
+		sleep 1
+	done
+
+	# if shutdown requested, kill the python process
+	if [[ "${shutdown}" == 'true' ]]; then
+		kill -TERM $pid 2>/dev/null
+		wait $pid 2>/dev/null
+		break
+	fi
+
+	# process exited, wait before restart
+	wait $pid 2>/dev/null
+
+	if [[ "${shutdown}" == 'false' ]]; then
+		echo "[info] Process exited, restarting in ${SCRIPT_INTERVAL:-300} seconds..."
+		sleep "${SCRIPT_INTERVAL:-300}" &
+		wait $!
+	fi
+done
+
+echo "[info] Shutdown complete"

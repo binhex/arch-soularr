@@ -128,6 +128,7 @@ env_vars=(
 	"SLSKD_DOWNLOAD_DIR:/data/slskd_downloads:true:false"
 	"SLSKD_DELETE_SEARCHES:False:false:false"
 	"SLSKD_STALLED_TIMEOUT:3600:false:false"
+	"SCRIPT_INTERVAL:300:false:false"
 )
 
 # Process each environment variable
