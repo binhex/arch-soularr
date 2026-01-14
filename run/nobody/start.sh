@@ -4,6 +4,9 @@ install_path="/usr/lib/soularr"
 virtualenv_path="${install_path}/venv"
 config_path="/config/soularr"
 
+# ensure we are in the install directory
+cd "${install_path}" || exit 1
+
 # activate virtualenv where requirements have been installed from install.sh
 source "${virtualenv_path}/bin/activate"
 
